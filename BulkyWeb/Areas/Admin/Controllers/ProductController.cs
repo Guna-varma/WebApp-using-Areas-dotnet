@@ -25,7 +25,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            List<Product> products = repo.Product.GetAll().ToList();
+            List<Product> products = repo.Product.GetAll(includeProperties: "Category").ToList();
             return View(products);
         }
 
@@ -63,20 +63,43 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 if(file != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string productPath = Path.Combine(wweRootPath, @"images\product");
+                    string productPath = Path.Combine(wweRootPath, @"images\product\");
+
+                    if(!string.IsNullOrEmpty(productVM.Product.ImageURL))
+                    {
+                        var oldImagePath =
+                            Path.Combine(wweRootPath, productVM.Product.ImageURL.TrimStart('\\'));
+
+                        if(System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
 
                     using(var fileStream = new FileStream(Path.Combine(productPath,fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
 
-                    productVM.Product.ImageURL = @"\images\product"+fileName;
+                    productVM.Product.ImageURL = @"\images\product\" + fileName;
+                }
+                if(productVM.Product.Id ==null || productVM.Product.Id==0)
+                {
+                    repo.Product.Add(productVM.Product); // add Product 
+
+                    repo.Save(); //save
+                    TempData["success"] = "Product Created Successfully!";
+                }
+                else
+                {
+                    repo.Product.Update(productVM.Product); // add Product 
+
+                    repo.Save(); //save
+                    TempData["success"] = "Product Updated Successfully!";
                 }
 
-                repo.Product.Add(productVM.Product); // add Product 
-                repo.Save(); //save
-                TempData["success"] = "Product Created Successfully!";
                 return RedirectToAction("Index"); // add the data into db
+
             }
             else
             {
