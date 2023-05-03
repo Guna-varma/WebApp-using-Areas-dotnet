@@ -9,23 +9,19 @@ using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
-    public class UnitOfWork : IUnitOfWork
+    public class ProductRepository : Repository<Product>, IProductRepository
     {
         public ApplicationDbContext _db;
 
-        public ICategoryRepository Category { get; set; }
-        public IProductRepository Product { get; set; }
-
-        public UnitOfWork(ApplicationDbContext db)
+        public ProductRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
-            Category = new CategoryRepository(_db);
-            Product = new ProductRepository(_db);
         }
 
-        public void Save()
+
+        public void Update(Product product)
         {
-            _db.SaveChanges();
+            _db.products.Update(product);
         }
 
     }

@@ -4,12 +4,13 @@ using Bulky.DataAccess.Repository;
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Model.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
-    //[Area("Admin")]
+    [Area("Admin")]
     public class CategoryController : Controller
     {
 
@@ -23,6 +24,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             List<Category> categories = repo.Category.GetAll().ToList();
+            
             return View(categories);
         }
 

@@ -1,0 +1,70 @@
+﻿@model Product
+
+<div class="card box-shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Create Product</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        <form method="post">
+            <input asp-for="Id" hidden />
+            <div class="border p-3 mt-4">
+
+                <div class="row pb-2">
+                    <h2 class="text-primary">Delete Product</h2>
+                    <hr />
+                </div>
+                @*<div asp-validation-summary="All"></div>*@
+
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="Title" disabled class="form-control border-0 shadow" />
+                    <label asp-for="Title" class="ms-2"></label>
+                    
+                </div>
+
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="ISBN" disabled class="form-control border-0 shadow" />
+                    <label asp-for="ISBN" class="ms-2"></label>
+                   
+                </div>
+
+                @*<div class="mb-3 row p-1">
+                    <label asp-for="Name" class="p-0"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" disabled class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="DisplayOrder" class="p-0"></label>
+                    <input asp-for="DisplayOrder" class="form-control" />
+                    <span asp-validation-for="DisplayOrder" disabled class="text-danger"></span>
+
+                </div>*@
+
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-danger form-control">Delete</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary form-control">
+                            Back to List
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
